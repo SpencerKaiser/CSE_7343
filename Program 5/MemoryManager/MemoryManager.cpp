@@ -16,6 +16,7 @@ MemoryManager::MemoryManager()
 
 void MemoryManager::readInput()
 {
+    system("pwd");
     ifstream systemTrace("VSWSsystemtrace.txt");
     if(!systemTrace)
     {
