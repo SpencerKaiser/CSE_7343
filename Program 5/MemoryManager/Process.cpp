@@ -61,7 +61,7 @@ void Process::performOperation(char operation, int page, stack<int>& freeFrames)
     }                                                                                       //PAGE IS NOT IN RESIDENT SET && MEMORY IS UNAVAILABLE
 
 
-    if(clock == L || (clock >= 4 && currFaults >= 3))
+    if(clock == L || (clock >= M && currFaults >= Q))
     {
         stringstream output;
         output << "\nEVALUATING WORKING SET FOR PROCESS " << PID << " (Clock = " << clock << ", NumFaults = " << currFaults << ")" << endl;
@@ -107,11 +107,17 @@ void Process::evaluate(stack<int>& freeFrames)
             pageTable[i].workingSet = false;
         }
     }
-    output << "\tEND EVALUATION...\n\n";
+    output << "\tEND EVALUATION...\n";
 
     logAndPrint(output.str());
 
-    clock = currFaults = 0;}
+    clock = currFaults = 0;
+
+    output.clear();
+    output.str(string());
+    output << "Process " << PID << " use-bits scanned.  New resident set size is " << numResident << ".   Resident set: " << printPageTable() << ".\n\n";
+    logAndPrint(output.str());
+}
 
 string Process::printPageTable()
 {
@@ -154,7 +160,7 @@ void Process::terminateProcess(stack<int>& freeFrames)
 
     int sumResident = 0;
 
-    for(int i = 0; i < preEvalResSetSize.size(); i++)
+    for(unsigned long i = 0; i < preEvalResSetSize.size(); i++)
         sumResident += preEvalResSetSize.at(i);
 
     float avgResidentSize = (float)sumResident/(float)preEvalResSetSize.size();
