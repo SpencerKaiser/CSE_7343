@@ -13,6 +13,8 @@ using namespace std;
 
 int main()
 {
+    cout << "\n\n\nWELCOME TO PROGRAM 5\n\n\n";
+
     MemoryManager VSWS;
 
     cout << "\n\n\nThank you for using Program 5.\n\n\n";
